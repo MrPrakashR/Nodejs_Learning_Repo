@@ -14,3 +14,27 @@ PATCH  http://localhost:3000/products/id
 
 ### Delete a Product by Id
 DELETE http://localhost:3000/products/id
+
+#### 404 Route Not Found
+GET  http://localhost:3000/
+
+#### Query String
+GET  http://localhost:3000/test?name=iMac&price=5000 
+
+#### Params
+GET  http://localhost:3000/test/89898989/hj
+
+#### Body
+POST  http://localhost:3000/test
+Content-Type: application/json
+
+{
+    "name":"iMac-Pro",
+    "price":2000
+}
+
+#### Body
+POST  http://localhost:3000/test
+Content-Type: application/x-www-form-urlencoded
+
+name=iMac&price=4000
