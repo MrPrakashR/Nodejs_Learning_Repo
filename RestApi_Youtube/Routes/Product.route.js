@@ -38,8 +38,16 @@ router.post("/",async (req,res,next)=>{
     // })
 })
 
-router.get("/:id",(req,res,next)=>{
-    res.send("getting a single product")
+router.get("/:id",async (req,res,next)=>{
+    const id = req.params.id
+    try {
+        const product = await Product.findById(id)
+        // const product = await Product.findOne({_id:id})
+
+        res.send(product)
+    } catch (error) {
+       console.log(error) 
+    }
 })
 
 router.patch("/:id",(req,res,next)=>{
