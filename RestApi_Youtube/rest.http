@@ -16,10 +16,16 @@ GET http://localhost:3000/products/64fddd926dcb1d9003866d3f
 
 
 ### Update a Product by Id
-PATCH  http://localhost:3000/products/id
+PATCH  http://localhost:3000/products/64fddd926dcb1d9003866d3f
+Content-Type: application/json
+
+{
+    "name":"iphone 12 13"
+    "price":788    
+}
 
 ### Delete a Product by Id
-DELETE http://localhost:3000/products/id
+DELETE http://localhost:3000/products/64b3fd1100fa7543404e17a7
 
 #### 404 Route Not Found
 GET  http://localhost:3000/

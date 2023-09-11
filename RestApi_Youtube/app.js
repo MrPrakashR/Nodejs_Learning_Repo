@@ -1,6 +1,7 @@
 const express = require("express")
 const productRout = require("./Routes/Product.route")
-const mongoose = require("mongoose")
+const mongoose = require("mongoose") 
+const createError = require("http-errors")
 
 const app = express()
 app.use(express.json())
@@ -12,7 +13,8 @@ mongoose.connect("mongodb+srv://ecommerce-prakash.bybdb3e.mongodb.net/",
     user:"admin",
     pass:'admin',
     useNewUrlParser:true,
-    useUnifiedTopology:true}).then(() => {
+    useUnifiedTopology:true,
+}).then(() => {
     console.log("Mongodb connected....")
 })
 
@@ -33,9 +35,10 @@ app.all("/test",(req,res)=>{
 app.use("/products",productRout)
 
 app.use((req,res,next)=>{
-    const error = new Error("Not Found")
-    err.status = 404
-    next(err)
+    // const error = new Error("Not Found")
+    // err.status = 404
+    // next(err)
+    next(createError(404,"Not Found"))
 })
 
 ///Error Handler

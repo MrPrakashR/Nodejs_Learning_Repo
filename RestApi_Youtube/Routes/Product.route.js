@@ -1,4 +1,6 @@
 const express = require("express")
+const createError = require("http-errors")
+const mongoose = require("mongoose")
 const router = express.Router()
 
 const Product = require("../Models/Product.model")
@@ -23,19 +25,13 @@ router.post("/",async (req,res,next)=>{
         const result = await product.save()
         res.send(result)
     } catch (error) {
-        console.log(error.message)
-    }
 
-    // const product = Product({
-    //     name:req.body.name,
-    //     price:req.body.price
-    // })
-    // product.save().then(result => {
-    //     console.log(result)
-    //     res.send(result)
-    // }).catch(err=>{
-    //     console.log(err.message)
-    // })
+        if(error.name == "ValidationError") {
+            next(createError(422,error.message))
+            return
+        }
+        next(error)
+    }
 })
 
 router.get("/:id",async (req,res,next)=>{
@@ -44,18 +40,56 @@ router.get("/:id",async (req,res,next)=>{
         const product = await Product.findById(id)
         // const product = await Product.findOne({_id:id})
 
+        if(!product) {
+            throw createError(404,"Product does not exist")
+        }
+
         res.send(product)
     } catch (error) {
-       console.log(error) 
+       
+       if(error instanceof mongoose.CastError) {
+        next(createError(400,"Invalid Product Id"))
+        return
+       }
+       next(error) 
     }
 })
 
-router.patch("/:id",(req,res,next)=>{
-    res.send("updating a single product")
+router.patch("/:id",async (req,res,next)=>{
+    try {
+        const id = req.params.id
+        const updates = req.body
+        const options = {new:true}
+
+        const product = await Product.findByIdAndUpdate(id,updates,options)
+        if(!product) {
+            throw createError(404,"Product does not exist")
+        }        
+        res.send(product)
+    } catch (error) {
+        if(error instanceof mongoose.CastError) {
+            next(createError(400,"Invalid Product Id"))
+            return
+           }
+           next(error)
+    }
 })
 
-router.delete("/:id",(req,res,next)=>{
-    res.send("deleting a single product")
+router.delete("/:id",async (req,res,next)=>{
+   const id = req.params.id
+   try {
+    const result = await Product.findByIdAndDelete(id)
+    if(!result) {
+        throw createError(404,"Product does not exist")
+    }  
+    res.send(result)
+   } catch (error) {
+    if(error instanceof mongoose.CastError) {
+        next(createError(400,"Invalid Product Id"))
+        return
+       }
+       next(error) 
+   }
 })
 
 module.exports = router
