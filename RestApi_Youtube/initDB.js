@@ -2,11 +2,10 @@ const mongoose = require("mongoose")
 
 module.exports = () => {
 
-mongoose.connect("mongodb+srv://ecommerce-prakash.bybdb3e.mongodb.net/",
-{
-    dbName:'Ecommerce-Prakash',
-    user:"admin",
-    pass:'admin',
+mongoose.connect(process.env.MONGODB_URI,{
+    dbName:process.env.DB_NAME,
+    user:process.env.DB_USER,
+    pass:process.env.DB_PASS,
     useNewUrlParser:true,
     useUnifiedTopology:true,
 }).then(() => {

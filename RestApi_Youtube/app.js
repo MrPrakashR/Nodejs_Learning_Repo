@@ -1,7 +1,10 @@
 const express = require("express")
 const productRout = require("./Routes/Product.route")
+const dotenv = require("dotenv").config()
 
 const createError = require("http-errors")
+
+console.log(dotenv.parsed)
 
 const app = express()
 app.use(express.json())
@@ -44,6 +47,7 @@ app.use((err,req,res,next)=>{
     })
 })
 
-app.listen(3001,()=>{
-    console.log("Server started on port 3001....")
+const PORT = process.env.PORT || 3001
+app.listen(PORT,()=>{
+    console.log(`Server started on port ${PORT}....`)
 })
