@@ -20,8 +20,8 @@ PATCH  http://localhost:3000/products/64fddd926dcb1d9003866d3f
 Content-Type: application/json
 
 {
-    "name":"iphone 12 13"
-    "price":788    
+    "name":"iphone 12 13",
+    "price":488    
 }
 
 ### Delete a Product by Id

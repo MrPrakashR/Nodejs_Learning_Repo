@@ -1,22 +1,14 @@
 const express = require("express")
 const productRout = require("./Routes/Product.route")
-const mongoose = require("mongoose") 
+
 const createError = require("http-errors")
 
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-mongoose.connect("mongodb+srv://ecommerce-prakash.bybdb3e.mongodb.net/",
-{
-    dbName:'Ecommerce-Prakash',
-    user:"admin",
-    pass:'admin',
-    useNewUrlParser:true,
-    useUnifiedTopology:true,
-}).then(() => {
-    console.log("Mongodb connected....")
-})
+//Initialize DB
+require("./initDB")()
 
 app.all("/test",(req,res)=>{ 
     // console.log(req.query)
@@ -52,6 +44,6 @@ app.use((err,req,res,next)=>{
     })
 })
 
-app.listen(3000,()=>{
-    console.log("Server started on port 3000....")
+app.listen(3001,()=>{
+    console.log("Server started on port 3001....")
 })
