@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  #MongoDB Services
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+
+  #Node Api Service
+  api:
+    build: .
+    ports:
+      - 4000:3000
+    environment:
+      PORT: 3000
+      MONGODB_URI: mongodb://mongo_db:27017
+      DB_NAME: Ecommerce-Prakash
+      DB_USER: admin
+      DB_PASS: admin
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}
