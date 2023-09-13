@@ -6,12 +6,16 @@ services:
     container_name: db_container
     image: mongo:latest
     restart: always
+    ports:
+      - 2717:27017
     volumes:
       - mongo_db:/data/db
 
   #Node Api Service
   api:
     build: .
+    volumes:
+      - .:/usr/src/app
     ports:
       - 4000:3000
     environment:
